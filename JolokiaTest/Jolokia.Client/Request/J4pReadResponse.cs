@@ -12,5 +12,11 @@ namespace Jolokia.Client.Request
             this.j4pReadRequest = j4pReadRequest;
             this.pResponse = pResponse;
         }
+
+        public Dictionary<string, object> Response
+        {
+            get { return pResponse; }
+            set { pResponse = value; }
+        }
     }
 }

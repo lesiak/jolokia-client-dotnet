@@ -21,6 +21,12 @@ namespace JolokiaTest
                 {
                     resp.Wait();
                 }
+                foreach (var entry in resp.Result.Response)
+                {
+                    Console.WriteLine(entry);
+                }
+                
+                
             }
             catch (AggregateException ex)
             {

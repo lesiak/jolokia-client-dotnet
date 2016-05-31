@@ -86,8 +86,8 @@ namespace Jolokia.Client.Request
 
         internal override RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
         {
-            //return new J4pReadResponse(this, pResponse);
-            return null;
+            return new J4pReadResponse(this, pResponse) as RESP;
+            
         }
 
         /**
