@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exception\J4pException.cs" />
+    <Compile Include="Exception\J4pRemoteException.cs" />
     <Compile Include="Request\AbtractJ4pMBeanRequest.cs" />
     <Compile Include="Request\IJ4pResponseExtractor.cs" />
     <Compile Include="J4pClient.cs" />

@@ -23,7 +23,7 @@ namespace Jolokia.Client.Request
         /// <exception cref=""></exception>
         public J4pReadRequest(string pObjectName, params string[] pAttribute) : this(null, pObjectName, pAttribute)
         {
-        
+
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Jolokia.Client.Request
         /// <param name="pAttribute">zero, one or more attributes to request.</param>
         public J4pReadRequest(J4pTargetConfig pTargetConfig, string pObjectName, params string[] pAttribute)
             : this(pTargetConfig, new ObjectName(pObjectName), pAttribute)
-            //throws MalformedObjectNameException
+        //throws MalformedObjectNameException
         {
 
 
@@ -47,43 +47,47 @@ namespace Jolokia.Client.Request
             attributes = pAttribute.ToList();
         }
 
-        internal override List<string> getRequestParts()
-        {
-            /** {@inheritDoc} */
-            
-                if (hasSingleAttribute())
-                {
-                    List<string> ret = base.getRequestParts();
-                    ret.Add(getAttribute());
-                    addPath(ret, path);
-                    return ret;
-                }
-                else if (hasAllAttributes() && path == null)
-                {
-                    return base.getRequestParts();
-                }
-
-                // A GET request cant be used for multiple attribute fetching or for fetching
-                // all attributes with a path
-                return null;
-            
-        }
-
-
-        /**
-    * If this request is for a single attribute, this attribute is returned
-    * by this getter.
-    * @return single attribute
-    * @throws IllegalArgumentException if no or more than one attribute are used when this request was
-    *         constructed.
-    */
-        public String getAttribute()
+        /// <summary>
+        /// If this request is for a single attribute, this attribute is returned by this getter.
+        /// </summary>
+        /// <returns>single attribute</returns>
+        public string getAttribute()
         {
             if (!hasSingleAttribute())
             {
                 throw new ArgumentException("More than one attribute given for this request");
             }
             return attributes[0];
+        }
+
+        internal override List<string> getRequestParts()
+        {
+
+
+            if (hasSingleAttribute())
+            {
+                List<string> ret = base.getRequestParts();
+                ret.Add(getAttribute());
+                addPath(ret, path);
+                return ret;
+            }
+            else if (hasAllAttributes() && path == null)
+            {
+                return base.getRequestParts();
+            }
+
+            // A GET request cant be used for multiple attribute fetching or for fetching
+            // all attributes with a path
+            return null;
+
+        }
+
+
+
+        internal override RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
+        {
+            //return new J4pReadResponse(this, pResponse);
+            return null;
         }
 
         /**

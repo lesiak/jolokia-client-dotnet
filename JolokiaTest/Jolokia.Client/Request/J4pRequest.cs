@@ -24,7 +24,18 @@ namespace Jolokia.Client.Request
         protected J4pRequest(J4pType pRequestType, J4pTargetConfig pTargetConfig)
         {
             requestType = pRequestType;
-        //    targetConfig = pTargetConfig;
+            //    targetConfig = pTargetConfig;
+        }
+
+
+
+        /// <summary>
+        /// Get the requestType of the request
+        /// </summary>
+        /// <returns>request's requestType</returns>
+        public J4pType getRequestType()
+        {
+            return requestType;
         }
 
         // ==================================================================================================
@@ -35,15 +46,17 @@ namespace Jolokia.Client.Request
         internal abstract List<string> getRequestParts();
 
 
+
+
         /**
-     * Get the requestType of the request
-     *
-     * @return request's requestType
-     */
-        public J4pType getRequestType()
-        {
-            return requestType;
-        }
+          * Create a response from a given JSON response
+          *
+          * @param pResponse http response as obtained from the Http-Request
+          * @return the create response
+          */
+        internal abstract RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
+              where RESP : J4pResponse<REQ>
+              where REQ : J4pRequest;
 
         // Helper class
         protected void addPath(List<string> pParts, string pPath)
