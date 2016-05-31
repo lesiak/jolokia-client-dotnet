@@ -52,7 +52,7 @@ namespace Jolokia.Client.Request
             {
                 return;
             }
-            throw new InvalidOperationException("Not implemented yet");
+            throw new NotImplementedException();
         }
     }
 }

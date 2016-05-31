@@ -155,7 +155,8 @@ namespace Jolokia.Client
                 //if (!(jsonResponse instanceof JSONObject)) {
                 //  throw new J4pException("Invalid JSON answer for a single request (expected a map but got a " + jsonResponse.getClass() + ")");
                 //}
-                //return pExtractor.extract(pRequest, (JSONObject)jsonResponse);
+                return pExtractor.Extract<RESP, REQ>(pRequest, jsonResponse);
+                              
             }
             catch (IOException e)
             {
