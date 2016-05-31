@@ -4,8 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 
-
-namespace Jolokia.Client
+namespace Jolokia.Client.Request
 {
     public class J4pRequestHandler
     {
@@ -137,5 +136,6 @@ namespace Jolokia.Client
                 return null;
             }
         }
+     
     }
 }

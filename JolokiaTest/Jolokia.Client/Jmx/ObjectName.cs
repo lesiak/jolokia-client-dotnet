@@ -1,5 +1,5 @@
 ﻿
-namespace Jolokia.Client
+namespace Jolokia.Client.Jmx
 {
     public class ObjectName
     {

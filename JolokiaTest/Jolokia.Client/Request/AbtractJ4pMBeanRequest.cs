@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Jolokia.Client.Jmx;
 
-namespace Jolokia.Client
+namespace Jolokia.Client.Request
 {
     public abstract class AbtractJ4pMBeanRequest : J4pRequest
     {

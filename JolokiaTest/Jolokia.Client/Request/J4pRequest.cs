@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Jolokia.Client
+namespace Jolokia.Client.Request
 {
     public abstract class J4pRequest
     {

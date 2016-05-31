@@ -1,4 +1,4 @@
-﻿namespace Jolokia.Client
+﻿namespace Jolokia.Client.Request
 {
     public interface IJ4pResponseExtractor
     {

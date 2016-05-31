@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Jolokia.Client.Request;
+using Newtonsoft.Json;
 
 
 namespace Jolokia.Client
@@ -44,7 +47,8 @@ namespace Jolokia.Client
         /// <param name="pJ4pServerUrl">the agent URL for how to contact the server.</param>
         /// <param name="pHttpClient">HTTP client to use for the connecting to the agent</param>
         /// <param name="pTargetConfig">optional target</param>
-        public J4pClient(string pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig) : this(pJ4pServerUrl, pHttpClient, pTargetConfig, ValidatingResponseExtractor.DEFAULT)
+        public J4pClient(string pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig)
+            : this(pJ4pServerUrl, pHttpClient, pTargetConfig, ValidatingResponseExtractor.DEFAULT)
         {
         }
 
@@ -58,25 +62,27 @@ namespace Jolokia.Client
         /// <param name="pHttpClient"> HTTP client to use for the connecting to the agent</param>
         /// <param name="pTargetConfig">optional target</param>
         /// <param name="pExtractor">response extractor to use</param>
-        public J4pClient(String pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig, IJ4pResponseExtractor pExtractor)
+        public J4pClient(String pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig,
+            IJ4pResponseExtractor pExtractor)
         {
             requestHandler = new J4pRequestHandler(pJ4pServerUrl, pTargetConfig);
             responseExtractor = pExtractor;
-            
+
             // Using the default as defined in the client builder
             if (pHttpClient != null)
             {
                 httpClient = pHttpClient;
             }
-            else {
-               // J4pClientBuilder builder = new J4pClientBuilder();
+            else
+            {
+                // J4pClientBuilder builder = new J4pClientBuilder();
                 //httpClient = builder.createHttpClient();
                 httpClient = new HttpClient();
             }
-            
+
         }
 
-        public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)                   
+        public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)
             //throws J4pException
         {
             return Execute<J4pReadResponse, J4pReadRequest>(pRequest, null, null);
@@ -105,11 +111,12 @@ namespace Jolokia.Client
         /// <param name="pMethod">pMethod method to use which should be either "GET" or "POST"</param>
         /// <param name="pProcessingOptions">pProcessingOptions optional map of processing options</param>
         /// <returns>response object</returns>
-        public Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod, Dictionary<J4pQueryParameter, string> pProcessingOptions)
+        public Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod,
+            Dictionary<J4pQueryParameter, string> pProcessingOptions)
             where REQ : J4pRequest
-            where RESP : J4pResponse<REQ>             
+            where RESP : J4pResponse<REQ>
         {
-            return Execute<RESP, REQ>(pRequest,pMethod,pProcessingOptions,responseExtractor);
+            return Execute<RESP, REQ>(pRequest, pMethod, pProcessingOptions, responseExtractor);
         }
 
 
@@ -126,45 +133,74 @@ namespace Jolokia.Client
      * @return response object
      * @throws J4pException if something's wrong (e.g. connection failed or read timeout)
      */
-        public async Task<RESP> Execute<RESP, REQ> (REQ pRequest, HttpMethod pMethod,Dictionary<J4pQueryParameter, String> pProcessingOptions,
-                                                                         IJ4pResponseExtractor pExtractor)
+
+        public async Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod,
+            Dictionary<J4pQueryParameter, String> pProcessingOptions,
+            IJ4pResponseExtractor pExtractor)
             where REQ : J4pRequest
             where RESP : J4pResponse<REQ>
-            
+
             //throws J4pException
         {
 
-        try
-        {
-            HttpRequestMessage requestMessage = requestHandler.getHttpRequest(pRequest, pMethod, pProcessingOptions);
-            //HttpResponse response = httpClient.execute(requestMessage);
-            HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
-                
-            string resp = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(resp);
-             
-                //JSONAware jsonResponse = extractJsonResponse(pRequest, response);
+            try
+            {
+                HttpRequestMessage requestMessage = requestHandler.getHttpRequest(pRequest, pMethod, pProcessingOptions);
+                //HttpResponse response = httpClient.execute(requestMessage);
+                HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
+
+                //JSONAware jsonResponse = ExtractJsonResponse(pRequest, response);
+
+                Dictionary<string, object> jsonResponse = await ExtractJsonResponse(pRequest, response);
                 //if (!(jsonResponse instanceof JSONObject)) {
                 //  throw new J4pException("Invalid JSON answer for a single request (expected a map but got a " + jsonResponse.getClass() + ")");
                 //}
                 //return pExtractor.extract(pRequest, (JSONObject)jsonResponse);
             }
-            catch (IOException e) {
+            catch (IOException e)
+            {
                 //throw mapException(e);
-            //} catch (URISyntaxException e) {
+                //} catch (URISyntaxException e) {
                 //throw mapException(e);
             }
             return null;
         }
+
+
+        private async Task<Dictionary<string,object>> ExtractJsonResponse<REQ>(REQ pRequest, HttpResponseMessage pResponse)
+            where REQ : J4pRequest
+            //throws J4pException
+        {
+
+            string responseContent = await pResponse.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            Dictionary<string, object> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+            string s = string.Join(";", htmlAttributes.Select(x => x.Key + "=" + x.Value));
+            Console.WriteLine(s);
+            return htmlAttributes;
+
+            //try {
+            //return requestHandler.extractJsonResponse(pResponse);
+            /*} catch (IoOException e) {
+            throw new J4pException("IO-Error while reading the response: " + e, e);
+        } catch (ParseException e) {
+            // It's a parse exception. Now, check whether the HTTResponse is
+            // an error and prepare the proper J4pException
+            StatusLine statusLine = pResponse.getStatusLine();
+            if (HttpStatus.SC_OK != statusLine.getStatusCode())
+            {
+                throw new J4pRemoteException(pRequest, statusLine.getReasonPhrase(), null, statusLine.getStatusCode(), null, null);
+            }
+            throw new J4pException("Could not parse answer: " + e, e);
+        }*/
+        }
+
     }
 
-   
+
     public class J4pTargetConfig
     {
     }
 
-    public class ValidatingResponseExtractor : IJ4pResponseExtractor
-    {
-        public static IJ4pResponseExtractor DEFAULT;
-    }
+   
 }
