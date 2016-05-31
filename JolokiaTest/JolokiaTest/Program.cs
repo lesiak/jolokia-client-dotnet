@@ -14,11 +14,11 @@ namespace JolokiaTest
         {
             J4pClient j4pClient = new J4pClient("http://localhost:8080/jolokia");
 
-            J4pReadRequest req = new J4pReadRequest("java.lang:type=Memory",
-                "HeapMemoryUsage");
+            J4pReadRequest req = new J4pReadRequest("java.lang:type=Memory", "HeapMemoryUsage");
+            //J4pReadRequest req = new J4pReadRequest("java.lang:type=MemoryPool,name=Code Cache", "PeakUsage");
             try
             {
-                Task<J4pReadResponse> resp = j4pClient.execute(req);
+                Task<J4pReadResponse> resp = j4pClient.Execute(req);
                 if (resp != null)
                 {
                     resp.Wait();

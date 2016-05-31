@@ -76,13 +76,13 @@ namespace Jolokia.Client
             
         }
 
-        public Task<J4pReadResponse> execute(J4pReadRequest pRequest)                   
+        public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)                   
             //throws J4pException
         {
-            return execute<J4pReadResponse, J4pReadRequest>(pRequest, null, null);
+            return Execute<J4pReadResponse, J4pReadRequest>(pRequest, null, null);
         }
 
-        /*  public Task<RESP> execute<REQ, RESP>(REQ pRequest)
+        /*  public Task<RESP> Execute<REQ, RESP>(REQ pRequest)
               where REQ : J4pRequest
               where RESP : J4pResponse<REQ>
 
@@ -90,7 +90,7 @@ namespace Jolokia.Client
           {
               // type spec is required to keep OpenJDK 1.6 happy (other JVM dont have a problem
               // with infering the type is missing here)
-              return execute<RESP, REQ>(pRequest, null, null);
+              return Execute<RESP, REQ>(pRequest, null, null);
 
           }*/
 
@@ -105,11 +105,11 @@ namespace Jolokia.Client
         /// <param name="pMethod">pMethod method to use which should be either "GET" or "POST"</param>
         /// <param name="pProcessingOptions">pProcessingOptions optional map of processing options</param>
         /// <returns>response object</returns>
-        public Task<RESP> execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod, Dictionary<J4pQueryParameter, string> pProcessingOptions)
+        public Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod, Dictionary<J4pQueryParameter, string> pProcessingOptions)
             where REQ : J4pRequest
             where RESP : J4pResponse<REQ>             
         {
-            return execute<RESP, REQ>(pRequest,pMethod,pProcessingOptions,responseExtractor);
+            return Execute<RESP, REQ>(pRequest,pMethod,pProcessingOptions,responseExtractor);
         }
 
 
@@ -126,7 +126,7 @@ namespace Jolokia.Client
      * @return response object
      * @throws J4pException if something's wrong (e.g. connection failed or read timeout)
      */
-        public async Task<RESP> execute<RESP, REQ> (REQ pRequest, HttpMethod pMethod,Dictionary<J4pQueryParameter, String> pProcessingOptions,
+        public async Task<RESP> Execute<RESP, REQ> (REQ pRequest, HttpMethod pMethod,Dictionary<J4pQueryParameter, String> pProcessingOptions,
                                                                          IJ4pResponseExtractor pExtractor)
             where REQ : J4pRequest
             where RESP : J4pResponse<REQ>
