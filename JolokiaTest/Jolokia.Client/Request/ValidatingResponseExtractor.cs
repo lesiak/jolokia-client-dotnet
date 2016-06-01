@@ -21,7 +21,7 @@ namespace Jolokia.Client.Request
             }
         }
 
-        public RESP Extract<RESP>(J4pRequest<RESP> pRequest, Dictionary<string, object> pJsonResp)
+        public RESP Extract<RESP>(J4pRequest<RESP> pRequest, Dictionary<string, object> pJsonResp) where RESP : class, IJ4pResponse
         {
             //throw new System.NotImplementedException();
 
@@ -34,8 +34,8 @@ namespace Jolokia.Client.Request
                 throw new J4pRemoteException(pRequest, pJsonResp);
             }
 
-            //return status == 200 ? pRequest.CreateResponse(pJsonResp) : null;
-            return status == 200 ? pRequest.CreateResponse(pJsonResp) : default(RESP);
+            return status == 200 ? pRequest.CreateResponse(pJsonResp) : null;
+           // return status == 200 ? pRequest.CreateResponse(pJsonResp) : default(RESP);
         }
     }
 }
