@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Jolokia.Client.Request;
+﻿using Jolokia.Client.Request;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Exception
 {
     public class J4pRemoteException : J4pException
     {
-        public J4pRemoteException(IJ4pRequest pJ4pRequest, Dictionary<string, object> pJsonRespObject) : base(pJsonRespObject["error"] != null ?
+        public J4pRemoteException(IJ4pRequest pJ4pRequest, JObject pJsonRespObject) : base(pJsonRespObject["error"] != null ?
                           (string)pJsonRespObject["error"] :
                           "Invalid response received: " + pJsonRespObject.ToString())
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Jolokia.Client.Exception;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
@@ -22,11 +23,11 @@ namespace Jolokia.Client.Request
             }
         }
 
-        public RESP Extract<RESP>(J4pRequest<RESP> pRequest, Dictionary<string, object> pJsonResp) where RESP : class, IJ4pResponse
+        public RESP Extract<RESP>(J4pRequest<RESP> pRequest, JObject pJsonResp) where RESP : class, IJ4pResponse
         {
             //throw new System.NotImplementedException();
 
-            int status = pJsonResp.ContainsKey("status") ?
+            int status = ((IDictionary<string, JToken>)pJsonResp).ContainsKey("status") ?
                Convert.ToInt32((long)pJsonResp["status"]) :
                0;
             Console.WriteLine("Status: {0}", status);

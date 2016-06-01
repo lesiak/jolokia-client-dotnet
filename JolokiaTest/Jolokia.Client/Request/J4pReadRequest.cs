@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Jolokia.Client.Jmx;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
@@ -92,7 +93,7 @@ namespace Jolokia.Client.Request
             
         }*/
 
-        internal override J4pReadResponse CreateResponse(Dictionary<string, object> pResponse)
+        internal override J4pReadResponse CreateResponse(JObject pResponse)
         {
             return new J4pReadResponse(this, pResponse);
         }

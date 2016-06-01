@@ -19,10 +19,10 @@ namespace JolokiaTest
             {
                 Task<J4pReadResponse> resp = j4pClient.Execute(req);                               
                 resp.Wait();                
-                foreach (var entry in resp.Result.JsonResponse)
+               /* foreach (var entry in resp.Result.JsonResponse)
                 {
                     Console.WriteLine(entry);
-                }
+                }*/
                 object vals = resp.Result.GetValue();
                 Console.WriteLine(vals);
 

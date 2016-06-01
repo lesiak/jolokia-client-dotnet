@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
@@ -9,12 +10,12 @@ namespace Jolokia.Client.Request
     public abstract class J4pResponse<TReq> : IJ4pResponse where TReq : IJ4pRequest
     {
         // JSON representation of the returned response
-        private Dictionary<string, object> jsonResponse;
+        private JObject jsonResponse;
 
         // request which lead to this response
         private TReq request;
 
-        protected J4pResponse(TReq pRequest, Dictionary<string, object> pJsonResponse)
+        protected J4pResponse(TReq pRequest, JObject pJsonResponse)
         {
             request = pRequest;
             jsonResponse = pJsonResponse;
@@ -24,15 +25,14 @@ namespace Jolokia.Client.Request
 
         /// <summary>
         /// Get the value of this response
-        /// </summary>
-        /// <typeparam name="V"></typeparam>
+        /// </summary>        
         /// <returns>json representation of answer</returns>
-        public object GetValue()
+        public IDictionary<string, object> GetValue()
         {
-            return jsonResponse["value"];
+            return (IDictionary<string, object>) (jsonResponse["value"] as JObject).ToObject(typeof (IDictionary<string, object>));// as IDictionary<string, object>;
         }
 
-        public Dictionary<string, object> JsonResponse
+        public JObject JsonResponse
         {
             get { return jsonResponse; }
         }

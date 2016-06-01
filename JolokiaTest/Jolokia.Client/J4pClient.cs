@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Jolokia.Client.Request;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace Jolokia.Client
@@ -136,7 +137,7 @@ namespace Jolokia.Client
 
                 //JSONAware jsonResponse = ExtractJsonResponse(pRequest, response);
 
-                Dictionary<string, object> jsonResponse = await ExtractJsonResponse(pRequest, response);
+                JObject jsonResponse = await ExtractJsonResponse(pRequest, response);
                 //if (!(jsonResponse instanceof JSONObject)) {
                 //  throw new J4pException("Invalid JSON answer for a single request (expected a map but got a " + jsonResponse.getClass() + ")");
                 //}
@@ -154,16 +155,19 @@ namespace Jolokia.Client
         }
 
 
-        private async Task<Dictionary<string, object>> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)
+        private async Task<JObject> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)
         //throws J4pException
         {
 
             string responseContent = await pResponse.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
-            Dictionary<string, object> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
-            string s = string.Join(";", htmlAttributes.Select(x => x.Key + "=" + x.Value));
-            Console.WriteLine(s);
-            return htmlAttributes;
+           // Dictionary<string, object> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+           JObject jobject = JObject.Parse(responseContent);
+            //string s = string.Join(";", htmlAttributes.Select(x => x.Key + "=" + x.Value));
+            //Console.WriteLine(s);
+            Console.WriteLine(jobject);
+            //return htmlAttributes;
+            return jobject;
 
             //try {
             //return requestHandler.extractJsonResponse(pResponse);

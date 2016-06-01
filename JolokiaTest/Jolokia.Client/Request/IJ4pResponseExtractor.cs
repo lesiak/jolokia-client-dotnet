@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
@@ -11,7 +11,7 @@ namespace Jolokia.Client.Request
         /// <param name="request">the original request</param>
         /// <param name="jsonResp"></param>
         /// <returns> the created response</returns>
-        RESP Extract<RESP>(J4pRequest<RESP> request, Dictionary<string, object> jsonResp) where RESP : class, IJ4pResponse;
+        RESP Extract<RESP>(J4pRequest<RESP> request, JObject jsonResp) where RESP : class, IJ4pResponse;
         //throws J4pRemoteException;
     }
 }

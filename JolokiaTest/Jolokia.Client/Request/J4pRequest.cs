@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
@@ -54,7 +55,7 @@ namespace Jolokia.Client.Request
           * @param pResponse http response as obtained from the Http-Request
           * @return the create response
           */
-        internal abstract TResp CreateResponse(Dictionary<string, object> pResponse);
+        internal abstract TResp CreateResponse(JObject pResponse);
              
 
         // Helper class
