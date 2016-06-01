@@ -15,8 +15,7 @@ namespace Jolokia.Client.Request
 
         public Dictionary<string, object> Response
         {
-            get { return pResponse; }
-            set { pResponse = value; }
+            get { return pResponse; }            
         }
     }
 }

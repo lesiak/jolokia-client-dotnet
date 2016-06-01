@@ -16,11 +16,8 @@ namespace JolokiaTest
             //J4pReadRequest req = new J4pReadRequest("java.lang:type=MemoryPool,name=Code Cache", "PeakUsage");
             try
             {
-                Task<J4pReadResponse> resp = j4pClient.Execute(req);
-                if (resp != null)
-                {
-                    resp.Wait();
-                }
+                Task<J4pReadResponse> resp = j4pClient.Execute(req);                               
+                resp.Wait();                
                 foreach (var entry in resp.Result.Response)
                 {
                     Console.WriteLine(entry);

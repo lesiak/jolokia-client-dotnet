@@ -12,9 +12,10 @@ namespace Jolokia.Client.Request
 
         public ValidatingResponseExtractor(params int[] pCodesAllowed)
         {
-            allowedCodes = new HashSet<int>();
-            // 200 is always contained
-            allowedCodes.Add(200);
+            allowedCodes = new HashSet<int>
+            {
+                200 //200 is always contained
+            };                       
             foreach (int code in pCodesAllowed)
             {
                 allowedCodes.Add(code);

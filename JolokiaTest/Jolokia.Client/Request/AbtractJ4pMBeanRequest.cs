@@ -17,8 +17,10 @@ namespace Jolokia.Client.Request
 
         public override List<string> getRequestParts()
         {
-            List<string> ret = new List<string>();
-            ret.Add(objectName.getCanonicalName());
+            List<string> ret = new List<string>
+            {
+                objectName.getCanonicalName()
+            };            
             return ret;
 
         }

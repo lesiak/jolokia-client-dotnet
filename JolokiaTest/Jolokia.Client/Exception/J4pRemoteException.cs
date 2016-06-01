@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Jolokia.Client.Request;
 
 namespace Jolokia.Client.Exception
