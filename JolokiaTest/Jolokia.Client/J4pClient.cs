@@ -82,23 +82,23 @@ namespace Jolokia.Client
 
         }
 
-        public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)
+        /*public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)
             //throws J4pException
         {
-            return Execute<J4pReadResponse, J4pReadRequest>(pRequest, null, null);
-        }
+            return Execute<J4pReadResponse>(pRequest, null, null);
+        }*/
 
-        /*  public Task<RESP> Execute<REQ, RESP>(REQ pRequest)
-              where REQ : J4pRequest
-              where RESP : J4pResponse<REQ>
+          public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest)
+              //where REQ : J4pRequest
+             // where RESP : J4pResponse<REQ>
 
               //throws J4pException
           {
               // type spec is required to keep OpenJDK 1.6 happy (other JVM dont have a problem
               // with infering the type is missing here)
-              return Execute<RESP, REQ>(pRequest, null, null);
+              return Execute(pRequest, null, null);
 
-          }*/
+          }
 
 
 
@@ -111,12 +111,12 @@ namespace Jolokia.Client
         /// <param name="pMethod">pMethod method to use which should be either "GET" or "POST"</param>
         /// <param name="pProcessingOptions">pProcessingOptions optional map of processing options</param>
         /// <returns>response object</returns>
-        public Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod,
+        public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest, HttpMethod pMethod,
             Dictionary<J4pQueryParameter, string> pProcessingOptions)
-            where REQ : J4pRequest
-            where RESP : J4pResponse<REQ>
+         //   where REQ : J4pRequest<RESP>
+          //  where RESP : J4pResponse<REQ>
         {
-            return Execute<RESP, REQ>(pRequest, pMethod, pProcessingOptions, responseExtractor);
+            return Execute(pRequest, pMethod, pProcessingOptions, responseExtractor);
         }
 
 
@@ -134,11 +134,11 @@ namespace Jolokia.Client
      * @throws J4pException if something's wrong (e.g. connection failed or read timeout)
      */
 
-        public async Task<RESP> Execute<RESP, REQ>(REQ pRequest, HttpMethod pMethod,
-            Dictionary<J4pQueryParameter, String> pProcessingOptions,
+        public async Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest, HttpMethod pMethod,
+            Dictionary<J4pQueryParameter, string> pProcessingOptions,
             IJ4pResponseExtractor pExtractor)
-            where REQ : J4pRequest
-            where RESP : J4pResponse<REQ>
+         //   where REQ : J4pRequest<RESP>
+         //   where RESP : J4pResponse<REQ>
 
             //throws J4pException
         {
@@ -155,7 +155,7 @@ namespace Jolokia.Client
                 //if (!(jsonResponse instanceof JSONObject)) {
                 //  throw new J4pException("Invalid JSON answer for a single request (expected a map but got a " + jsonResponse.getClass() + ")");
                 //}
-                return pExtractor.Extract<RESP, REQ>(pRequest, jsonResponse);
+                return pExtractor.Extract<RESP>(pRequest, jsonResponse);
                               
             }
             catch (IOException e)
@@ -164,12 +164,13 @@ namespace Jolokia.Client
                 //} catch (URISyntaxException e) {
                 //throw mapException(e);
             }
-            return null;
+            // return null;
+            return default(RESP);
         }
 
 
-        private async Task<Dictionary<string,object>> ExtractJsonResponse<REQ>(REQ pRequest, HttpResponseMessage pResponse)
-            where REQ : J4pRequest
+        private async Task<Dictionary<string,object>> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)
+        
             //throws J4pException
         {
 

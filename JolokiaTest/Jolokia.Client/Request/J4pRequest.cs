@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jolokia.Client.Request
 {
-    public abstract class J4pRequest
+    public abstract class J4pRequest<TResp> : IJ4pRequest
     {
 
 
@@ -43,7 +43,7 @@ namespace Jolokia.Client.Request
         // These methods are assembly visible only since are used only internally
 
         // Get the parts to build up a GET url (without the requestType as the first part)
-        internal abstract List<string> getRequestParts();
+        public abstract List<string> getRequestParts();
 
 
 
@@ -54,9 +54,8 @@ namespace Jolokia.Client.Request
           * @param pResponse http response as obtained from the Http-Request
           * @return the create response
           */
-        internal abstract RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
-              where RESP : J4pResponse<REQ>
-              where REQ : J4pRequest;
+        internal abstract TResp CreateResponse(Dictionary<string, object> pResponse);
+             
 
         // Helper class
         protected void addPath(List<string> pParts, string pPath)
@@ -67,5 +66,7 @@ namespace Jolokia.Client.Request
             }
             throw new NotImplementedException();
         }
+
+       
     }
 }

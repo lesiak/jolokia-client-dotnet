@@ -6,7 +6,7 @@ namespace Jolokia.Client.Exception
 {
     public class J4pRemoteException : J4pException
     {
-        public J4pRemoteException(J4pRequest pJ4pRequest, Dictionary<string, object> pJsonRespObject) : base(pJsonRespObject["error"] != null ?
+        public J4pRemoteException(IJ4pRequest pJ4pRequest, Dictionary<string, object> pJsonRespObject) : base(pJsonRespObject["error"] != null ?
                           (string)pJsonRespObject["error"] :
                           "Invalid response received: " + pJsonRespObject.ToString())
         {

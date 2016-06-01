@@ -52,7 +52,7 @@ namespace Jolokia.Client.Request
         /// <param name="pPreferredMethod">HTTP method preferred</param>
         /// <param name="pProcessingOptions">optional map of processiong options</param>
         /// <returns>the request used with HttpClient to obtain the result.</returns>
-        public HttpRequestMessage getHttpRequest(J4pRequest pRequest, HttpMethod pPreferredMethod,
+        public HttpRequestMessage getHttpRequest(IJ4pRequest pRequest, HttpMethod pPreferredMethod,
                                              Dictionary<J4pQueryParameter, string> pProcessingOptions)
         //throws UnsupportedEncodingException, URISyntaxException 
         {

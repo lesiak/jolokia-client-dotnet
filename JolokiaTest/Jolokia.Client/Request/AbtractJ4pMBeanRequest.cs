@@ -3,7 +3,7 @@ using Jolokia.Client.Jmx;
 
 namespace Jolokia.Client.Request
 {
-    public abstract class AbtractJ4pMBeanRequest : J4pRequest
+    public abstract class AbtractJ4pMBeanRequest<TResp> : J4pRequest<TResp>
     {
         // name of MBean to execute a request on
         private readonly ObjectName objectName;
@@ -15,7 +15,7 @@ namespace Jolokia.Client.Request
             objectName = pMBeanName;
         }
 
-        internal override List<string> getRequestParts()
+        public override List<string> getRequestParts()
         {
             List<string> ret = new List<string>();
             ret.Add(objectName.getCanonicalName());

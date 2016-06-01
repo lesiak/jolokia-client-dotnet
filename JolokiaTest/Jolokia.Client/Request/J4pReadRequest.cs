@@ -5,7 +5,7 @@ using Jolokia.Client.Jmx;
 
 namespace Jolokia.Client.Request
 {
-    public class J4pReadRequest : AbtractJ4pMBeanRequest
+    public class J4pReadRequest : AbtractJ4pMBeanRequest<J4pReadResponse>
     {
 
         // Name of attribute to request
@@ -60,7 +60,9 @@ namespace Jolokia.Client.Request
             return attributes[0];
         }
 
-        internal override List<string> getRequestParts()
+
+
+      /*  internal List<string> getRequestParts()
         {
 
 
@@ -80,14 +82,19 @@ namespace Jolokia.Client.Request
             // all attributes with a path
             return null;
 
-        }
+        }*/
 
 
 
-        internal override RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
+      /*  internal override RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
         {
             return new J4pReadResponse(this, pResponse) as RESP;
             
+        }*/
+
+        internal override J4pReadResponse CreateResponse(Dictionary<string, object> pResponse)
+        {
+            return new J4pReadResponse(this, pResponse);
         }
 
         /**

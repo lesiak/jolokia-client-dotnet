@@ -12,9 +12,10 @@ namespace Jolokia.Client.Request
         /// <param name="request">the original request</param>
         /// <param name="jsonResp"></param>
         /// <returns> the created response</returns>
-        RESP Extract<RESP, REQ>(REQ request, Dictionary<string, object> jsonResp)
-            where REQ : J4pRequest
-            where RESP : J4pResponse<REQ>;
+        RESP Extract<RESP>(J4pRequest<RESP> request, Dictionary<string, object> jsonResp);
+
+        //where REQ : J4pRequest
+        //where RESP : J4pResponse<REQ>;
 
         //throws J4pRemoteException;
     }
