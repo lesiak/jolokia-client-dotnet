@@ -13,13 +13,13 @@ namespace Jolokia.Client
     public class J4pClient
     {
         // Http client used for connecting the j4p Agent
-        private HttpClient httpClient;
+        private readonly HttpClient httpClient;
 
         // Creating and parsing HTTP-Requests and Responses
-        private J4pRequestHandler requestHandler;
+        private readonly J4pRequestHandler requestHandler;
 
         // Extractor used for creating J4pResponses
-        private IJ4pResponseExtractor responseExtractor;
+        private readonly IJ4pResponseExtractor responseExtractor;
 
         /// <summary>
         /// Construct a new client for a given server url
@@ -82,15 +82,8 @@ namespace Jolokia.Client
 
         }
 
-        /*public Task<J4pReadResponse> Execute(J4pReadRequest pRequest)
-            //throws J4pException
-        {
-            return Execute<J4pReadResponse>(pRequest, null, null);
-        }*/
-
-          public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest)
-              //where REQ : J4pRequest
-             // where RESP : J4pResponse<REQ>
+        
+          public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest) where RESP : IJ4pResponse
 
               //throws J4pException
           {
@@ -105,41 +98,34 @@ namespace Jolokia.Client
         /// <summary>
         /// Execute a single J4pRequest which returns a single response.
         /// </summary>
-        /// <typeparam name="RESP">response type</typeparam>
-        /// <typeparam name="REQ">request type</typeparam>
+        /// <typeparam name="RESP">response type</typeparam>        
         /// <param name="pRequest">pRequest request to execute</param>
         /// <param name="pMethod">pMethod method to use which should be either "GET" or "POST"</param>
         /// <param name="pProcessingOptions">pProcessingOptions optional map of processing options</param>
         /// <returns>response object</returns>
-        public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest, HttpMethod pMethod,
-            Dictionary<J4pQueryParameter, string> pProcessingOptions)
-         //   where REQ : J4pRequest<RESP>
-          //  where RESP : J4pResponse<REQ>
+        public Task<RESP> Execute<RESP>(
+            J4pRequest<RESP> pRequest, 
+            HttpMethod pMethod,
+            Dictionary<J4pQueryParameter, string> pProcessingOptions)         
+            where RESP : IJ4pResponse
         {
             return Execute(pRequest, pMethod, pProcessingOptions, responseExtractor);
         }
 
-
-        /**
-     * Execute a single J4pRequest which returns a single response.
-     *
-     * @param pRequest request to execute
-     * @param pMethod method to use which should be either "GET" or "POST"
-     * @param pProcessingOptions optional map of processing options
-     * @param pExtractor extractor for actually creating the response
-     *
-     * @param <RESP> response type
-     * @param <REQ> request type
-     * @return response object
-     * @throws J4pException if something's wrong (e.g. connection failed or read timeout)
-     */
-
-        public async Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest, HttpMethod pMethod,
+        /// <summary>
+        /// Execute a single J4pRequest which returns a single response.
+        /// </summary>
+        /// <typeparam name="RESP">response type</typeparam>
+        /// <param name="pRequest">request to execute</param>
+        /// <param name="pMethod">method to use which should be either "GET" or "POST"</param>
+        /// <param name="pProcessingOptions">optional map of processing options</param>
+        /// <param name="pExtractor">extractor for actually creating the response</param>
+        /// <returns>response object</returns>
+        public async Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest, 
+            HttpMethod pMethod,
             Dictionary<J4pQueryParameter, string> pProcessingOptions,
-            IJ4pResponseExtractor pExtractor)
-         //   where REQ : J4pRequest<RESP>
-         //   where RESP : J4pResponse<REQ>
-
+            IJ4pResponseExtractor pExtractor) 
+            where RESP : IJ4pResponse
             //throws J4pException
         {
 
@@ -169,8 +155,7 @@ namespace Jolokia.Client
         }
 
 
-        private async Task<Dictionary<string,object>> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)
-        
+        private async Task<Dictionary<string,object>> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)      
             //throws J4pException
         {
 
