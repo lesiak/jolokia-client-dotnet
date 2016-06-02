@@ -27,9 +27,9 @@ namespace Jolokia.Client.Request
         /// Get the value of this response
         /// </summary>        
         /// <returns>json representation of answer</returns>
-        public IDictionary<string, object> GetValue()
+        public V GetValue<V>()
         {
-            return GetValueAsDictionary();
+            return GetValueAsJObject().ToObject<V>();
         }
 
         private JObject GetValueAsJObject()

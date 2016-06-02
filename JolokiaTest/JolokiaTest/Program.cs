@@ -24,7 +24,7 @@ namespace JolokiaTest
                     Console.WriteLine(entry);
                 }*/
                 Console.WriteLine(resp.Result.JsonResponse);
-                IDictionary<string, object> vals = resp.Result.GetValue();
+                var vals = resp.Result.GetValue<IDictionary<string, object>>();
                 Console.WriteLine(vals);
                 Console.WriteLine(vals["used"]);
                 Console.WriteLine(vals["used"].GetType());
