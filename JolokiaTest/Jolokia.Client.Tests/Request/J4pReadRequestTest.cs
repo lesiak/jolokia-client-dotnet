@@ -10,7 +10,7 @@ namespace Jolokia.Client.Tests.Request
         public void TestGetRequestParts()
         {
             J4pReadRequest req = new J4pReadRequest("java.lang:type=Memory", "HeapMemoryUsage");
-            Assert.AreEqual(2, req.getRequestParts().Count);
+            Assert.AreEqual(2, req.GetRequestParts().Count);
         }
     }
 }

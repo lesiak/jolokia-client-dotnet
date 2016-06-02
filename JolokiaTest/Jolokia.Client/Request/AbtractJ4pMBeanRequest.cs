@@ -15,7 +15,7 @@ namespace Jolokia.Client.Request
             objectName = pMBeanName;
         }
 
-        public override List<string> getRequestParts()
+        public override List<string> GetRequestParts()
         {
             List<string> ret = new List<string>
             {

@@ -24,7 +24,6 @@ namespace Jolokia.Client.Request
         /// <exception cref=""></exception>
         public J4pReadRequest(string pObjectName, params string[] pAttribute) : this(null, pObjectName, pAttribute)
         {
-
         }
 
         /// <summary>
@@ -38,8 +37,6 @@ namespace Jolokia.Client.Request
             : this(pTargetConfig, new ObjectName(pObjectName), pAttribute)
         //throws MalformedObjectNameException
         {
-
-
         }
 
         public J4pReadRequest(J4pTargetConfig pTargetConfig, ObjectName pObjectName, params string[] pAttribute)
@@ -54,66 +51,51 @@ namespace Jolokia.Client.Request
         /// <returns>single attribute</returns>
         public string getAttribute()
         {
-            if (!hasSingleAttribute())
+            if (!HasSingleAttribute())
             {
                 throw new ArgumentException("More than one attribute given for this request");
             }
             return attributes[0];
         }
 
-
-
-      /*  internal List<string> getRequestParts()
+        public override List<string> GetRequestParts()
         {
-
-
-            if (hasSingleAttribute())
+            if (HasSingleAttribute())
             {
-                List<string> ret = base.getRequestParts();
+                List<string> ret = base.GetRequestParts();
                 ret.Add(getAttribute());
                 addPath(ret, path);
                 return ret;
             }
-            else if (hasAllAttributes() && path == null)
+            else if (HasAllAttributes() && path == null)
             {
-                return base.getRequestParts();
+                return base.GetRequestParts();
             }
 
             // A GET request cant be used for multiple attribute fetching or for fetching
             // all attributes with a path
             return null;
-
-        }*/
-
-
-
-      /*  internal override RESP CreateResponse<RESP, REQ>(Dictionary<string, object> pResponse)
-        {
-            return new J4pReadResponse(this, pResponse) as RESP;
-            
-        }*/
-
+        }
+   
         internal override J4pReadResponse CreateResponse(JObject pResponse)
         {
             return new J4pReadResponse(this, pResponse);
         }
 
-        /**
-     * Whether this request represents a request for a single attribute
-     *
-     * @return true if the client request is for a single attribute
-     */
-        public bool hasSingleAttribute()
+        /// <summary>
+        /// Whether this request represents a request for a single attribute
+        /// </summary>
+        /// <returns>true if the client request is for a single attribute</returns>
+        public bool HasSingleAttribute()
         {
             return attributes.Count == 1;
-        }
+        }       
 
-        /**
-         * Whether all attributes should be fetched
-         *
-         * @return true if all attributes should be fetched
-         */
-        public bool hasAllAttributes()
+        /// <summary>
+        /// Whether all attributes should be fetched
+        /// </summary>
+        /// <returns>true if all attributes should be fetched</returns>
+        public bool HasAllAttributes()
         {
             return attributes.Count == 0;
         }

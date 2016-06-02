@@ -44,7 +44,7 @@ namespace Jolokia.Client.Request
         // These methods are assembly visible only since are used only internally
 
         // Get the parts to build up a GET url (without the requestType as the first part)
-        public abstract List<string> getRequestParts();
+        public abstract List<string> GetRequestParts();
 
 
 

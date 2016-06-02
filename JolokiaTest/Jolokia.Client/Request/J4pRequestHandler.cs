@@ -74,7 +74,7 @@ namespace Jolokia.Client.Request
                 //if (doUseProxy(pRequest)) {
                 //    throw new IllegalArgumentException("Proxy mode can only be used with POST requests");
                 // }
-                List<string> parts = pRequest.getRequestParts();
+                List<string> parts = pRequest.GetRequestParts();
                 // If parts == null the request decides, that POST *must* be used
                 if (parts != null)
                 {
