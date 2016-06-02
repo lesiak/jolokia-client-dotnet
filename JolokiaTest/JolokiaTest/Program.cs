@@ -23,7 +23,11 @@ namespace JolokiaTest
                 {
                     Console.WriteLine(entry);
                 }*/
-                object vals = resp.Result.GetValue();
+                Console.WriteLine(resp.Result.JsonResponse);
+                IDictionary<string, object> vals = resp.Result.GetValue();
+                Console.WriteLine(vals);
+               // Console.WriteLine(vals["used"]);
+                
                 Console.WriteLine(vals);
 
             }
