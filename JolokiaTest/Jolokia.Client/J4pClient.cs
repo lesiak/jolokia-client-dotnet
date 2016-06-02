@@ -150,11 +150,11 @@ namespace Jolokia.Client
         //throws J4pException
         {
             string responseContent = await pResponse.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);           
+            //Console.WriteLine(responseContent);           
             JObject jobject = JObject.Parse(responseContent);
             //string s = string.Join(";", htmlAttributes.Select(x => x.Key + "=" + x.Value));
             //Console.WriteLine(s);
-            Console.WriteLine(jobject);            
+            //Console.WriteLine(jobject);            
             return jobject;
 
             //try {
