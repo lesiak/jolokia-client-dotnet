@@ -28,7 +28,6 @@ namespace Jolokia.Client
         /// <param name="pJ4pServerUrl">the agent URL for how to contact the server.</param>
         public J4pClient(string pJ4pServerUrl) : this(pJ4pServerUrl, null)
         {
-
         }
 
         /// <summary>
@@ -54,7 +53,6 @@ namespace Jolokia.Client
         }
 
 
-
         /// <summary>
         /// Constructor using a given Agent URL, HttpClient and a proxy target config.If the HttpClient is null,
         /// a default client is used.If no target config is given, a plain request is performed
@@ -63,7 +61,7 @@ namespace Jolokia.Client
         /// <param name="pHttpClient"> HTTP client to use for the connecting to the agent</param>
         /// <param name="pTargetConfig">optional target</param>
         /// <param name="pExtractor">response extractor to use</param>
-        public J4pClient(String pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig,
+        public J4pClient(string pJ4pServerUrl, HttpClient pHttpClient, J4pTargetConfig pTargetConfig,
             IJ4pResponseExtractor pExtractor)
         {
             requestHandler = new J4pRequestHandler(pJ4pServerUrl, pTargetConfig);
@@ -86,13 +84,9 @@ namespace Jolokia.Client
 
         public Task<RESP> Execute<RESP>(J4pRequest<RESP> pRequest) where RESP : class, IJ4pResponse
             //throws J4pException
-        {
-            // type spec is required to keep OpenJDK 1.6 happy (other JVM dont have a problem
-            // with infering the type is missing here)
+        {            
             return Execute(pRequest, null, null);
-
         }
-
 
 
         /// <summary>
@@ -131,12 +125,9 @@ namespace Jolokia.Client
 
             try
             {
-                HttpRequestMessage requestMessage = requestHandler.getHttpRequest(pRequest, pMethod, pProcessingOptions);
-                //HttpResponse response = httpClient.execute(requestMessage);
+                HttpRequestMessage requestMessage = requestHandler.getHttpRequest(pRequest, pMethod, pProcessingOptions);                
                 HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
-
-                //JSONAware jsonResponse = ExtractJsonResponse(pRequest, response);
-
+              
                 JObject jsonResponse = await ExtractJsonResponse(pRequest, response);
                 //if (!(jsonResponse instanceof JSONObject)) {
                 //  throw new J4pException("Invalid JSON answer for a single request (expected a map but got a " + jsonResponse.getClass() + ")");
