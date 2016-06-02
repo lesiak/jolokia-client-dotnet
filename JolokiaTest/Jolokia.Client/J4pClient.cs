@@ -158,15 +158,12 @@ namespace Jolokia.Client
         private async Task<JObject> ExtractJsonResponse(IJ4pRequest pRequest, HttpResponseMessage pResponse)
         //throws J4pException
         {
-
             string responseContent = await pResponse.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);
-           // Dictionary<string, object> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
-           JObject jobject = JObject.Parse(responseContent);
+            Console.WriteLine(responseContent);           
+            JObject jobject = JObject.Parse(responseContent);
             //string s = string.Join(";", htmlAttributes.Select(x => x.Key + "=" + x.Value));
             //Console.WriteLine(s);
-            Console.WriteLine(jobject);
-            //return htmlAttributes;
+            Console.WriteLine(jobject);            
             return jobject;
 
             //try {
