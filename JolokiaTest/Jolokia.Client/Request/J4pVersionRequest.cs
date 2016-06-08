@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
@@ -22,12 +23,12 @@ namespace Jolokia.Client.Request
 
         public override List<string> GetRequestParts()
         {
-            throw new System.NotImplementedException();
+            return new List<string>();
         }
 
         internal override J4pVersionResponse CreateResponse(JObject pResponse)
         {
-            throw new System.NotImplementedException();
+            return new J4pVersionResponse(this, pResponse);
         }
     }
 }

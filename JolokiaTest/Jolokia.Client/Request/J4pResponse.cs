@@ -32,12 +32,12 @@ namespace Jolokia.Client.Request
             return GetValueAsJObject().ToObject<V>();
         }
 
-        private JObject GetValueAsJObject()
+        protected JObject GetValueAsJObject()
         {
             return JsonResponse["value"] as JObject;
         }
 
-        private IDictionary<string, object> GetValueAsDictionary()
+        protected IDictionary<string, object> GetValueAsDictionary()
         {
             return GetValueAsJObject().ToObject<IDictionary<string, object>>();
         }

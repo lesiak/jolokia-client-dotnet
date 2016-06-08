@@ -4,11 +4,12 @@ namespace Jolokia.Client.Request
 {
     public class J4pVersionResponse : J4pResponse<J4pVersionRequest>
     {
-        J4pVersionResponse(J4pVersionRequest pRequest, JObject pResponse) : base(pRequest, pResponse)
-        {            
-            /*JSONObject value = (JSONObject)getValue();
-            agentVersion = (String)value.get("agent");
-            protocolVersion = (String)value.get("protocol");
+        public J4pVersionResponse(J4pVersionRequest pRequest, JObject pResponse) : base(pRequest, pResponse)
+        {
+            var value = GetValueAsDictionary();
+            
+            AgentVersion = (string)value["agent"];
+            /*protocolVersion = (String)value.get("protocol");
             details = (JSONObject)value.get("details");
             jolokiaId = (String)value.get("id");
             if (details == null)
@@ -21,5 +22,12 @@ namespace Jolokia.Client.Request
                 info = new JSONObject();
             }*/
         }
+
+
+        /// <summary>
+        /// The version of the Jolokia agent
+        /// </summary>
+        /// <returns>version</returns>
+        public string AgentVersion { get; }
     }
 }

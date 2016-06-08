@@ -40,6 +40,20 @@ namespace JolokiaTest
         {
             J4pClient j4pClient = new J4pClient("http://localhost:8080/jolokia");
             ReadRequest(j4pClient);
+            try
+            {
+                J4pVersionRequest versionReq = new J4pVersionRequest();
+                Task<J4pVersionResponse> verResponseTask = j4pClient.Execute(versionReq);
+                verResponseTask.Wait();
+                J4pVersionResponse verResponse = verResponseTask.Result;
+                //Console.WriteLine(verResponse.getProduct());
+                Console.WriteLine(verResponse.AgentVersion);
+            }
+
+            catch (AggregateException ex)
+            {
+                Console.WriteLine(ex.InnerExceptions[0]);
+            }
 
 
             Console.ReadLine();
