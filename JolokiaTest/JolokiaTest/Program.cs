@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Jolokia.Client;
 using Jolokia.Client.Request;
@@ -47,7 +48,10 @@ namespace JolokiaTest
                 verResponseTask.Wait();
                 J4pVersionResponse verResponse = verResponseTask.Result;
                 //Console.WriteLine(verResponse.getProduct());
-                Console.WriteLine(verResponse.AgentVersion);
+                Console.WriteLine("Agent Version: " + verResponse.AgentVersion);
+                Console.WriteLine("Protocol Version: " + verResponse.AgentVersion);
+                Console.WriteLine("Realms: " + string.Join(", ", verResponse.Realms));
+
             }
 
             catch (AggregateException ex)
@@ -59,4 +63,6 @@ namespace JolokiaTest
             Console.ReadLine();
         }
     }
+
+
 }

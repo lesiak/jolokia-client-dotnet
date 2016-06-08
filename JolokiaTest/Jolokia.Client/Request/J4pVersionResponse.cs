@@ -1,26 +1,31 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
 {
     public class J4pVersionResponse : J4pResponse<J4pVersionRequest>
     {
+
+        private readonly JObject info;
+
         public J4pVersionResponse(J4pVersionRequest pRequest, JObject pResponse) : base(pRequest, pResponse)
         {
-            var value = GetValueAsDictionary();
+            var value = (IDictionary<string, JToken>) GetValueAsJObject();
             
             AgentVersion = (string)value["agent"];
-            /*protocolVersion = (String)value.get("protocol");
+            ProtocolVersion = (string)value["protocol"];
+            /*
             details = (JSONObject)value.get("details");
             jolokiaId = (String)value.get("id");
             if (details == null)
             {
                 details = new JSONObject();
-            }
-            info = (JSONObject)value.get("info");
+            }*/
+            info = value["info"] as JObject;
             if (info == null)
             {
-                info = new JSONObject();
-            }*/
+                info = new JObject();
+            }
         }
 
 
@@ -29,5 +34,17 @@ namespace Jolokia.Client.Request
         /// </summary>
         /// <returns>version</returns>
         public string AgentVersion { get; }
+
+        /// <summary>
+        /// Jolokia protocol version by the remote Jolokia agent
+        /// </summary>
+        /// <returns>protocol version (as string)</returns>
+        public string ProtocolVersion { get; }
+
+        /// <summary>
+        /// Get all supported realms
+        /// </summary>
+        /// <returns>set of supported realms</returns>
+        public ICollection<string> Realms => ((IDictionary<string, JToken>)info).Keys;
     }
 }
