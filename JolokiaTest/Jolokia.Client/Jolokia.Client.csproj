@@ -50,6 +50,8 @@
     <Compile Include="Request\IJ4pRequest.cs" />
     <Compile Include="Request\IJ4pResponseExtractor.cs" />
     <Compile Include="J4pClient.cs" />
+    <Compile Include="Request\J4pListRequest.cs" />
+    <Compile Include="Request\J4pListResponse.cs" />
     <Compile Include="Request\J4pQueryParameter.cs" />
     <Compile Include="Request\J4pReadRequest.cs" />
     <Compile Include="Request\J4pReadResponse.cs" />
