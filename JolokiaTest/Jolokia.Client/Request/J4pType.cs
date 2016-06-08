@@ -4,6 +4,8 @@
     {
         public static J4pType READ = new J4pType("read");
 
+        public static J4pType VERSION = new J4pType("version");
+
         private readonly string value;
 
         private J4pType(string pValue)

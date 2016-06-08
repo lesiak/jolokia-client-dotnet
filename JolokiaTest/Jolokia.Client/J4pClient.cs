@@ -135,8 +135,10 @@ namespace Jolokia.Client
                 return pExtractor.Extract<RESP>(pRequest, jsonResponse);
 
             }
-            catch (IOException e)
+            catch (HttpRequestException e)
             {
+                Console.WriteLine(e);
+                throw;
                 //throw mapException(e);
                 //} catch (URISyntaxException e) {
                 //throw mapException(e);

@@ -60,6 +60,8 @@
     <Compile Include="Request\J4pType.cs" />
     <Compile Include="Jmx\ObjectName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\J4pVersionRequest.cs" />
+    <Compile Include="Request\J4pVersionResponse.cs" />
     <Compile Include="Request\ValidatingResponseExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
