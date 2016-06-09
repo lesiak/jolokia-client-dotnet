@@ -46,7 +46,6 @@ namespace JolokiaTest
 
         static async void ListRequest(J4pClient j4pClient)
         {
-
             var listReq = new J4pListRequest("java.lang/type=OperatingSystem/attr");
             var listResponse = await j4pClient.Execute(listReq);
             var respValue = listResponse.GetValueAsDictionary();
@@ -60,6 +59,14 @@ namespace JolokiaTest
             Console.WriteLine("Request date:" + listResponse.RequestDate);
         }
 
+        static async Task ExecRequest(J4pClient j4pClient)
+        {           
+            var listReq = new J4pExecRequest("java.util.logging:type=Logging", "getLoggerLevel", "org.apache.jasper");
+            var listResponse = await j4pClient.Execute(listReq);
+            var respValue = listResponse.GetValue<object>();
+            Console.WriteLine("execResponseValue" + respValue);           
+        }
+
 
         static void Main(string[] args)
         {
@@ -68,11 +75,14 @@ namespace JolokiaTest
             {
                 //ReadRequest(j4pClient);
                 //VersionRequest(j4pClient);
-                ListRequest(j4pClient);
+                //ListRequest(j4pClient);
+
+                ExecRequest(j4pClient).Wait();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                int aaa = 0;
             }
             Console.ReadLine();
         }

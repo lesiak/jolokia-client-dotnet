@@ -49,7 +49,30 @@ namespace Jolokia.Client.Request
             }
         }
 
-        internal override J4pExecResponse CreateResponse(JObject pResponse)
+        /// <summary>
+        /// New client request for executing a JMX operation
+        /// </summary>
+        /// <param name="pMBeanName">name of the MBean to execute the request on</param>
+        /// <param name="pOperation">operation to execute</param>
+        /// <param name="pArgs">any arguments to pass (which must match the JMX operation's declared signature)</param>
+        public J4pExecRequest(string pMBeanName, string pOperation, params object[] pArgs) : this(null, pMBeanName, pOperation, pArgs)
+            //throws MalformedObjectNameException
+        {        
+        }
+
+        /// <summary>
+        /// New client request for executing a JMX operation
+        /// </summary>
+        /// <param name="pTargetConfig">proxy target configuration or <code>null</code> if no proxy should be used</param>
+        /// <param name="pMBeanName">name of the MBean to execute the request on</param>
+        /// <param name="pOperation">operation to execute</param>
+        /// <param name="pArgs">any arguments to pass (which must match the JMX operation's declared signature)</param>
+        public J4pExecRequest(J4pTargetConfig pTargetConfig, string pMBeanName, string pOperation, params object[] pArgs) : this(pTargetConfig, new ObjectName(pMBeanName), pOperation, pArgs)
+            //throws MalformedObjectNameException
+        {       
+        }
+
+    internal override J4pExecResponse CreateResponse(JObject pResponse)
         {
             return new J4pExecResponse(this, pResponse);
         }
