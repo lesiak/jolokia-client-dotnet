@@ -8,6 +8,8 @@
 
         public static J4pType LIST = new J4pType("list");
 
+        public static J4pType EXEC = new J4pType("exec");
+
         private readonly string value;
 
         private J4pType(string pValue)
