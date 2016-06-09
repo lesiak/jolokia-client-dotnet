@@ -28,6 +28,12 @@ namespace Jolokia.Client.Request
         }
 
         /// <summary>
+        /// Get the request/response type
+        /// </summary>
+        /// <returns>type</returns>
+        public J4pType RequestType => request.RequestType;
+
+        /// <summary>
         /// Date when the request was processed
         /// </summary>
         /// <returns>request date</returns>

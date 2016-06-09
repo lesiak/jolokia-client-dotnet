@@ -6,6 +6,6 @@ namespace Jolokia.Client.Request
     {
         // Get the parts to build up a GET url (without the requestType as the first part)
         List<string> GetRequestParts();
-        J4pType getRequestType();
+        J4pType RequestType { get; }
     }
 }

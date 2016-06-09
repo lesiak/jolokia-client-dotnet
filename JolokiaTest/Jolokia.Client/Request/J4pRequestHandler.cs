@@ -80,7 +80,7 @@ namespace Jolokia.Client.Request
                 {
                     string baseUrl = prepareBaseUrl(j4pServerUrl);
                     StringBuilder requestPath = new StringBuilder(baseUrl);
-                    requestPath.Append(pRequest.getRequestType().getValue());
+                    requestPath.Append(pRequest.RequestType.getValue());
 
                     foreach (string p in parts)
                     {

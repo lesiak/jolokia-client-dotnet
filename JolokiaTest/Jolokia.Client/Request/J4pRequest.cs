@@ -5,17 +5,7 @@ using Newtonsoft.Json.Linq;
 namespace Jolokia.Client.Request
 {
     public abstract class J4pRequest<TResp> : IJ4pRequest
-    {
-
-
-        // request requestType
-        private readonly J4pType requestType;
-
-        /**
-     * 
-     * @param pRequestType 
-     * @param pTargetConfig 
-     */
+    {        
         /// <summary>
         /// Constructor for subclasses
         /// </summary>
@@ -24,20 +14,15 @@ namespace Jolokia.Client.Request
         ///                      if this is a direct request</param>
         protected J4pRequest(J4pType pRequestType, J4pTargetConfig pTargetConfig)
         {
-            requestType = pRequestType;
+            RequestType = pRequestType;
             //    targetConfig = pTargetConfig;
         }
-
-
 
         /// <summary>
         /// Get the requestType of the request
         /// </summary>
         /// <returns>request's requestType</returns>
-        public J4pType getRequestType()
-        {
-            return requestType;
-        }
+        public J4pType RequestType { get; }
 
         // ==================================================================================================
         // Methods used for building up HTTP Requests and setting up the reponse
@@ -46,15 +31,11 @@ namespace Jolokia.Client.Request
         // Get the parts to build up a GET url (without the requestType as the first part)
         public abstract List<string> GetRequestParts();
 
-
-
-
-        /**
-          * Create a response from a given JSON response
-          *
-          * @param pResponse http response as obtained from the Http-Request
-          * @return the create response
-          */
+        /// <summary>
+        /// Create a response from a given JSON response
+        /// </summary>
+        /// <param name="pResponse">http response as obtained from the Http-Request</param>
+        /// <returns>the created response</returns>
         internal abstract TResp CreateResponse(JObject pResponse);
              
 
