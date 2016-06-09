@@ -57,9 +57,9 @@ namespace Jolokia.Client.Request
             return JsonResponse["value"] as JObject;
         }
 
-        protected IDictionary<string, object> GetValueAsDictionary()
+        public IDictionary<string, JToken> GetValueAsDictionary()
         {
-            return GetValueAsJObject().ToObject<IDictionary<string, object>>();
+            return GetValueAsJObject();
         }
 
     }

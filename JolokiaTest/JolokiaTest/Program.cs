@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Jolokia.Client;
 using Jolokia.Client.Request;
+using Newtonsoft.Json.Linq;
 
 
 namespace JolokiaTest
@@ -14,10 +15,10 @@ namespace JolokiaTest
 
         static async void ReadRequest(J4pClient j4pClient)
         {
-            J4pReadRequest req = new J4pReadRequest("java.lang:type=Memory", "HeapMemoryUsage");
+            var req = new J4pReadRequest("java.lang:type=Memory", "HeapMemoryUsage");
             //J4pReadRequest req = new J4pReadRequest("java.lang:type=MemoryPool,name=Code Cache", "PeakUsage");
 
-            J4pReadResponse resp = await j4pClient.Execute(req);
+            var resp = await j4pClient.Execute(req);
 
             /* foreach (var entry in resp.Result.JsonResponse)
              {
@@ -35,8 +36,8 @@ namespace JolokiaTest
 
         static async void VersionRequest(J4pClient j4pClient)
         {
-            J4pVersionRequest versionReq = new J4pVersionRequest();                       
-            J4pVersionResponse verResponse = await j4pClient.Execute(versionReq);
+            var versionReq = new J4pVersionRequest();                       
+            var verResponse = await j4pClient.Execute(versionReq);
             //Console.WriteLine(verResponse.getProduct());
             Console.WriteLine("Agent Version: " + verResponse.AgentVersion);
             Console.WriteLine("Protocol Version: " + verResponse.AgentVersion);
@@ -46,10 +47,17 @@ namespace JolokiaTest
         static async void ListRequest(J4pClient j4pClient)
         {
 
-            J4pListRequest listReq = new J4pListRequest("java.lang/type=OperatingSystem/attr");
-            J4pListResponse listResponse = await j4pClient.Execute(listReq);
-            Console.WriteLine(listResponse.GetValue<IDictionary>());
-            Console.WriteLine(listResponse.RequestDate);
+            var listReq = new J4pListRequest("java.lang/type=OperatingSystem/attr");
+            var listResponse = await j4pClient.Execute(listReq);
+            var respValue = listResponse.GetValueAsDictionary();
+            Console.WriteLine("listResponseValue" + respValue);
+            
+            var freePhysicalMemorySize = (JObject) respValue["FreePhysicalMemorySize"];
+            
+            
+            Console.WriteLine("MemorySize attruibute: " + freePhysicalMemorySize);
+            Console.WriteLine("MemorySize desc: " + freePhysicalMemorySize["desc"]);
+            Console.WriteLine("Request date:" + listResponse.RequestDate);
         }
 
 
