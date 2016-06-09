@@ -10,7 +10,7 @@ namespace Jolokia.Client.Request
 
         private static readonly Regex SLASH_ESCAPE_PATTERN = new Regex("((?:[^!/]|!.)*)(?:/|$)");
 
-        private List<string> pathElements;
+        private readonly List<string> pathElements;
         
         /// <summary>
         /// Constructor using a path to restrict the information
@@ -51,13 +51,12 @@ namespace Jolokia.Client.Request
             return new J4pListResponse(this, pResponse);
         }
 
-        /**
-    * Split up a path taking into account proper escaping (as described in the
-    * <a href="http://www.jolokia.org/reference">reference manual</a>).
-    *
-    * @param pArg string to split with escaping taken into account
-    * @return split element or null if the argument was null.
-    */
+        /// <summary>
+        /// Split up a path taking into account proper escaping (as described in the
+        /// <a href="http://www.jolokia.org/reference">reference manual</a>).
+        /// </summary>
+        /// <param name="pArg">string to split with escaping taken into account</param>
+        /// <returns>split element or null if the argument was null.</returns>
         public static List<string> SplitPath(string pArg)
         {
             List<string> ret = new List<string>();

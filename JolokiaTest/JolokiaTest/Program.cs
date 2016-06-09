@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +48,8 @@ namespace JolokiaTest
 
             J4pListRequest listReq = new J4pListRequest("java.lang/type=OperatingSystem/attr");
             J4pListResponse listResponse = await j4pClient.Execute(listReq);
-            Console.WriteLine(listResponse.GetValue<object>());           
+            Console.WriteLine(listResponse.GetValue<IDictionary>());
+            Console.WriteLine(listResponse.RequestDate.ToLongDateString());
         }
 
 

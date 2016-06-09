@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
@@ -13,14 +14,27 @@ namespace Jolokia.Client.Request
         public JObject JsonResponse { get; }
 
         // request which lead to this response
-        private TReq request;
+        private TReq request;      
 
         protected J4pResponse(TReq pRequest, JObject pJsonResponse)
         {
             request = pRequest;
             JsonResponse = pJsonResponse;
-            //Long timestamp = (Long)jsonResponse.get("timestamp");
-            //requestDate = timestamp != null ? new Date(timestamp * 1000) : new Date();
+            long? unixTimestampSeconds = (long?)pJsonResponse["timestamp"];
+            
+            RequestDate = unixTimestampSeconds != null 
+                ? DateTimeOffset.FromUnixTimeSeconds(unixTimestampSeconds.Value).DateTime 
+                : DateTime.Now;
+        }
+
+        /// <summary>
+        /// Date when the request was processed
+        /// </summary>
+        /// <returns>request date</returns>
+        public DateTime RequestDate
+        {
+            //no need to clone - DateTime is immutable value type
+            get;
         }
 
         /// <summary>
