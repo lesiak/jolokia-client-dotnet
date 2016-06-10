@@ -72,9 +72,25 @@ namespace Jolokia.Client.Request
         {       
         }
 
-    internal override J4pExecResponse CreateResponse(JObject pResponse)
+        internal override J4pExecResponse CreateResponse(JObject pResponse)
         {
             return new J4pExecResponse(this, pResponse);
         }
+
+        public override List<string> GetRequestParts()
+        {
+            List<string> ret = base.GetRequestParts();
+            ret.Add(operation);
+            if (arguments.Count > 0)
+            {
+                for (int i = 0; i < arguments.Count; i++)
+                {
+                    ret.Add(serializeArgumentToRequestPart(arguments[i]));
+                }
+            }
+            return ret;
+        }
+
     }
+
 }

@@ -10,7 +10,7 @@ namespace Jolokia.Client.Request
 
         public J4pVersionResponse(J4pVersionRequest pRequest, JObject pResponse) : base(pRequest, pResponse)
         {
-            var value = (IDictionary<string, JToken>) GetValueAsJObject();
+            var value = GetValueAsDictionary();
             
             AgentVersion = (string)value["agent"];
             ProtocolVersion = (string)value["protocol"];

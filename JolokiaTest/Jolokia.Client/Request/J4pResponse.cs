@@ -49,17 +49,12 @@ namespace Jolokia.Client.Request
         /// <returns>json representation of answer</returns>
         public V GetValue<V>()
         {
-            return GetValueAsJObject().ToObject<V>();
+            return JsonResponse["value"].ToObject<V>();
         }
-
-        protected JObject GetValueAsJObject()
-        {
-            return JsonResponse["value"] as JObject;
-        }
-
+       
         public IDictionary<string, JToken> GetValueAsDictionary()
         {
-            return GetValueAsJObject();
+            return JsonResponse["value"] as JObject;
         }
 
     }
