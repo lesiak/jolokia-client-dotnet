@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jolokia.Client.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,10 +16,21 @@ namespace Jolokia.Client.Tests.Request
 
 
         [TestMethod]
-        public void SerializeArgumentToRequestPartTest()
+        public void SerializeArgumentToRequestPartArrayTest()
         {
-            string[] stringArray = {"aaa", "bbbb"};
-            Assert.AreEqual("aaa,bbbb", RequestSerializer.SerializeArgumentToRequestPart(stringArray));
+            string[] stringArray = {"aElem1", "aElem2" };
+            Assert.AreEqual("aElem1,aElem2", RequestSerializer.SerializeArgumentToRequestPart(stringArray));
+        }
+
+        [TestMethod]
+        public void SerializeArgumentToRequestPartListTest()
+        {
+            var stringList = new List<string>
+            {
+                "lElem1",
+                "lElem2"
+            };
+            Assert.AreEqual("lElem1,lElem2", RequestSerializer.SerializeArgumentToRequestPart(stringList));
         }
     }
 }

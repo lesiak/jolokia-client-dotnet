@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
@@ -66,7 +68,7 @@ namespace Jolokia.Client.Request
         /// when object should be transmitted <em>to</em> the agent. The serialization is
         /// rather limited: If it is an array, the array's member's string representation are used
         /// in a comma separated list (without escaping so far, so the strings must not contain any
-        /// commas themselves). If it is not an array, the string representation ist used (<code>Object.toString()</code>)
+        /// commas themselves). If it is not an array, the string representation ist used (<code>Object.ToString()</code>)
         /// Any <code>null</code> value is transformed in the special marker <code>[null]</code> which on the
         /// agent side is converted back into a <code>null</code>.
         /// <p>
@@ -83,23 +85,19 @@ namespace Jolokia.Client.Request
                 {
                     return GetArrayForArgument((object[]) pArg);
                 }
-                /*else if (List.class.isAssignableFrom(pArg.getClass())) {
-                    List list = (List)pArg;
-                    Object[] args = new Object[list.size()];
-                    int i = 0;
-                    for (Object e : list) {
-                        args[i++] = e;
-                    }
-                    return getArrayForArgument(args);
-                    }*/
+                else if (pArg is IList) {
+                    IList list = (IList)pArg;
+                    object[] args = list.Cast<object>().ToArray();                    
+                    return GetArrayForArgument(args);
+                }
             }
             return NullEscape(pArg);
         }
 
         private static string GetArrayForArgument(object[] pArg)
         {
-            StringBuilder inner = new StringBuilder();
-            for (int i = 0; i < pArg.Length; i++)
+            StringBuilder inner = new StringBuilder();            
+            for (var i = 0; i < pArg.Length; i++)
             {
                 inner.Append(NullEscape(pArg[i]));
                 if (i < pArg.Length - 1)
