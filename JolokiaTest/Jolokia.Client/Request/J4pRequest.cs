@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace Jolokia.Client.Request
@@ -49,29 +50,40 @@ namespace Jolokia.Client.Request
             throw new NotImplementedException();
         }
 
-        /**
-     * Serialize an object to a string which can be uses as URL part in a GET request
-     * when object should be transmitted <em>to</em> the agent. The serialization is
-     * rather limited: If it is an array, the array's member's string representation are used
-     * in a comma separated list (without escaping so far, so the strings must not contain any
-     * commas themselves). If it is not an array, the string representation ist used (<code>Object.toString()</code>)
-     * Any <code>null</code> value is transformed in the special marker <code>[null]</code> which on the
-     * agent side is converted back into a <code>null</code>.
-     * <p>
-     * You should consider POST requests when you need a more sophisticated JSON serialization.
-     * </p>
-     * @param pArg the argument to serialize for an GET request
-     * @return the string representation
-     */
-        protected string serializeArgumentToRequestPart(object pArg)
+        
+        protected string SerializeArgumentToRequestPart(object pArg)
         {
-            /*if (pArg != null)
+            return RequestSerializer.SerializeArgumentToRequestPart(pArg);
+        }
+
+    }
+
+    public static class RequestSerializer
+    {
+
+        /// <summary>
+        /// Serialize an object to a string which can be uses as URL part in a GET request
+        /// when object should be transmitted <em>to</em> the agent. The serialization is
+        /// rather limited: If it is an array, the array's member's string representation are used
+        /// in a comma separated list (without escaping so far, so the strings must not contain any
+        /// commas themselves). If it is not an array, the string representation ist used (<code>Object.toString()</code>)
+        /// Any <code>null</code> value is transformed in the special marker <code>[null]</code> which on the
+        /// agent side is converted back into a <code>null</code>.
+        /// <p>
+        /// You should consider POST requests when you need a more sophisticated JSON serialization.
+        /// </p>
+        /// </summary>
+        /// <param name="pArg">the argument to serialize for an GET request</param>
+        /// <returns>the string representation</returns>
+        public static string SerializeArgumentToRequestPart(object pArg)
+        {
+            if (pArg != null)
             {
-                if (pArg.getClass().isArray())
+                if (pArg.GetType().IsArray)
                 {
-                    return getArrayForArgument((Object[])pArg);
+                    return GetArrayForArgument((object[]) pArg);
                 }
-                else if (List.class.isAssignableFrom(pArg.getClass())) {
+                /*else if (List.class.isAssignableFrom(pArg.getClass())) {
                     List list = (List)pArg;
                     Object[] args = new Object[list.size()];
                     int i = 0;
@@ -79,22 +91,25 @@ namespace Jolokia.Client.Request
                         args[i++] = e;
                     }
                     return getArrayForArgument(args);
-                    }
-            }*/
+                    }*/
+            }
             return NullEscape(pArg);
         }
 
-        // null escape used for GET requests
-        private string NullEscape(object pArg)
+        private static string GetArrayForArgument(object[] pArg)
         {
-            return RequestSerializer.NullEscape(pArg);
+            StringBuilder inner = new StringBuilder();
+            for (int i = 0; i < pArg.Length; i++)
+            {
+                inner.Append(NullEscape(pArg[i]));
+                if (i < pArg.Length - 1)
+                {
+                    inner.Append(",");
+                }
+            }
+            return inner.ToString();
         }
 
-
-    }
-
-    public static class RequestSerializer
-    {
         // null escape used for GET requests
         public static string NullEscape(object pArg)
         {

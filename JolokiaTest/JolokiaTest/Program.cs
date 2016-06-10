@@ -60,7 +60,7 @@ namespace JolokiaTest
         }
 
         static async Task ExecRequest(J4pClient j4pClient)
-        {           
+        {
             var execRequest = new J4pExecRequest("java.util.logging:type=Logging", "getLoggerLevel", "org.apache.jasper");
             var execResponse = await j4pClient.Execute(execRequest);
             var respValue = execResponse.GetValue<object>();

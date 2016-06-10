@@ -85,7 +85,7 @@ namespace Jolokia.Client.Request
             {
                 for (int i = 0; i < arguments.Count; i++)
                 {
-                    ret.Add(serializeArgumentToRequestPart(arguments[i]));
+                    ret.Add(SerializeArgumentToRequestPart(arguments[i]));
                 }
             }
             return ret;
